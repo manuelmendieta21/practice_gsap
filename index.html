@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gsap modelos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+</head>
+<style>
+    body {
+        background-color: #121212;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: #c8c8c8;
+        margin: 10px;
+        padding: 40px;
+    }
+  
+    .box {
+        width: 10%;
+        height: 100px;
+        border-radius: 8px;
+        margin-top: 20px;
+        position: relative;
+    }
+    
+    .purple{background-color: #a45ee5;}
+    
+    .blue {
+        background-color: #1fa6ea;
+    }
+    .yellow {
+        background-color: #c5f134;
+
+    }
+</style>
+<body>
+   
+    <div class="box blue"></div>
+    <div class="box purple"></div>
+    <div class="box yellow"></div>
+
+    <footer>
+        <button id="reproducir">
+            reproducir
+        </button>
+        <button id="pausa">
+            pause
+        </button>
+        <button id="stop">
+            stop
+        </button>
+
+        <button id="Invert">
+            Invertir
+        </button>
+        <button id="Reiniciar">
+            Reiniciar
+        </button>
+        
+
+    </footer>
+    <small id="log"></small>
+
+
+</body>
+
+<script>
+ // use a script tag or an external JS file
+ document.addEventListener("DOMContentLoaded", (event) => {
+  gsap.registerPlugin(ScrollTrigger,SplitText)
+  // gsap code here!
+ });
+ // Example of a simple animation x left to right  
+ //Gsap .to es para el estado inicial y el final de la animacion
+ //fromTo ejemplo x:-100 y:0 to x:100 y:0
+
+
+ /*//Anamacion 1
+  gsap.fromTo('.box',{x:300,
+    y:0
+    duration: 2
+  })
+ 
+ */
+ /*//Anamacion 2
+  gsap.fromTo('.box',{x:-300,
+
+    y:0
+    
+ },{
+    x:100,
+    duration: 2
+ })
+ 
+ */
+
+ /*//Anamacion 3
+ const boxes = document.querySelectorAll('.box');
+boxes.forEach((box, i )=>{
+    gsap.to(box,{
+        x:200,
+        duration: 1,
+        delay:i * 0.4
+    })
+})
+ 
+ */
+
+ //Anamacion 4
+ /*
+ Valores espceciales
+
+ const boxe = document.querySelectorAll('.box');
+boxe.forEach((box, i )=>{
+    gsap.to(box,{
+        x:800,
+        duration: 1,
+        delay:i * 0.4
+    })
+})
+ 
+ */
+ 
+/*Code calcular ancho ventana para el tope 
+
+
+window.innerWidth: Devuelve el ancho útil de la ventana del navegador (en píxeles).
+
+Cálculo dinámico: En lugar de usar un valor fijo (800), calculamos un desplazamiento proporcional al ancho de la pantalla (ej: screenWidth * 0.8 para mover las cajas al 80% del ancho).
+
+Aplicación en GSAP: El valor calculado (offsetX) se usa en la animación para que el movimiento se adapte a cualquier pantalla.
+const boxes = document.querySelectorAll('.box');
+const screenWidth = window.innerWidth;// Obtener el ancho de la ventana
+const offSet = screenWidth * 0.88; // Calcular el desplazamiento deseado (80% del ancho de la ventana)
+boxes.forEach((box, i )=>{
+    gsap.to(box,{
+        x:offSet,
+        duration: 4,// Duración de la animación
+        delay:i * 0.8,
+        rotate: 360, // Añadir rotación de 360 grados
+        yoyo: true, // Hacer que la animación se repita hacia atrás y hacia adelante
+        repeat: -4, // Repetir indefinidamente
+        stagger:{each: 0.2, from: "start"} // Añadir un efecto de escalonamiento para que las cajas se muevan una tras otra
+        })
+})
+
+*/
+
+//Animacion 5
+/*
+//timeline 
+const tl = gsap.timeline({
+    defaults: {duration: 1}
+});
+tl.to('.box', {
+    x: 800,
+    stagger: 0.2, // Añadir un efecto de escalonamiento para que las cajas se muevan una tras otra
+    rotate: 360, // Añadir rotación de 360 grados
+    yoyo: true, // Hacer que la animación se repita hacia atrás y hacia adelante
+    repeat: -4,// Repetir indefinidamente
+    duration: 2
+});
+//*/
+//Animacion 6
+
+
+const screenWidth = window.innerWidth;// Obtener el ancho de la ventana
+const offSet = screenWidth * 0.87; // Calcular el desplazamiento deseado (80% del ancho de la ventana)
+const boxes = document.querySelectorAll('.box');
+
+const tl = gsap.timeline({
+    defaults: {duration: 2}
+});
+
+tl.to('.box.purple', {
+    x:200 // Mover la caja púrpura a la izquierda del centro
+    
+})
+.to('.box.blue', {
+    y: 120,
+}, "<") // El "<" indica que esta animación comienza al mismo tiempo que la anterior
+.to('.box.yellow', {
+    x:100,
+    y: -120,
+}, "<") // El "<" indica que esta animación comienza al mismo tiempo que la anterior
+
+document.querySelector('#reproducir').addEventListener('click',()=>{
+    console.log('Reproducir');
+    tl.play();
+
+})
+
+document.querySelector('#pausa').addEventListener('click',()=>{
+    console.log('Pausa');
+   
+    tl.pause();
+})
+
+document.querySelector('#Invert').addEventListener('click',()=>{
+    console.log('Invertir');
+    tl.reversed(!tl.reversed());
+})
+
+document.querySelector('#Reiniciar').addEventListener('click',()=>{
+    console.log('Reiniciar');
+    tl.restart();
+})
+
+</script>
+</html>

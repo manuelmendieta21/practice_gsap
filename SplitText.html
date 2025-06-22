@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Gsap modelo Fuente</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+</head>
+</head>
+<body>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur exercitationem corporis deserunt optio fuga. Enim, libero. Expedita perferendis exercitationem quia enim blanditiis quasi soluta, fuga dignissimos eum ut cumque dolorum!</p>
+</body>
+
+<style>
+    body {
+        background-color: #121212;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: #c8c8c8;
+        margin: 10px;
+        padding: 40px;
+    }
+
+    p {
+        font-size: 40px;
+        line-height: 1.5;
+    }
+    p span {
+        display: inline-block;
+        opacity: 0;
+    }
+    </style>
+<script>
+    //Registrar el plugin SplitText
+    gsap.registerPlugin(SplitText);
+    const texto = document.querySelector("p");
+    const split = new SplitText(texto, { type: "lines, words, chars" });//Separar el texto en líneas, palabras y caracteres
+    gsap.from(split.lines, {//Animar las líneas x words x chars independientemente
+        duration: 2.5,
+        opacity: 0,
+        autoAplha: 0,
+        filter:"blur(10px)",
+        y: 50,
+        ease: "back",
+        stagger: 0.05,
+        scrollTrigger: {
+            trigger: texto,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+            markers: true,
+        }
+    });
+</script>
+</html>
